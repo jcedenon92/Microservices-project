@@ -1,0 +1,13 @@
+server:
+  port: 8888
+spring:
+  application:
+    name: ms-admin-server-config
+#Configuracion Local
+  profiles:
+    active: native
+  cloud:
+    config:
+      server:
+        native:
+          searchLocations: file:///D:/Galaxy/Proyecto/Nutrition-microservices/ms-admin-server-data
