@@ -5,24 +5,34 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
 @Table(name = "vaccine")
-public class VaccineEntity implements Serializable {
+public class VaccineEntity{
 
     @Id
-    @Column(name = "id_vaccine")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer idVaccine;
 
-    @NotNull(message = "Vaccine name is required")
-    @Size(min = 3, max = 200, message = "Vaccine name must be between 3 and 50 characters")
-    @Column(name = "name", nullable = false)
+    @Column(name = "name", nullable = false, length = 200)
     private String name;
+
+    @Column(name = "description", nullable = false, length = 250)
+    private String description;
+
+    @Column(name = "status", nullable = false)
+    private boolean status;
+
+    @Column(name = "created_at", nullable = false)
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
+
+    @OneToMany(mappedBy = "vaccine", cascade = CascadeType.ALL)
+    private List<DoseDetailEntity> doseDetails;
 }
