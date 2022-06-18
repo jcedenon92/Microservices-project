@@ -1,9 +1,7 @@
 package com.nutrition.app.java.ms.sc.msfoodfoodgroupsmanagement.controller;
 
 import com.nutrition.app.java.ms.sc.msfoodfoodgroupsmanagement.dto.FoodDTO;
-import com.nutrition.app.java.ms.sc.msfoodfoodgroupsmanagement.dto.FoodGroupsDTO;
 import com.nutrition.app.java.ms.sc.msfoodfoodgroupsmanagement.entity.FoodEntity;
-import com.nutrition.app.java.ms.sc.msfoodfoodgroupsmanagement.entity.FoodGroupsEntity;
 import com.nutrition.app.java.ms.sc.msfoodfoodgroupsmanagement.exceptions.ModelNotFoundException;
 import com.nutrition.app.java.ms.sc.msfoodfoodgroupsmanagement.service.IFoodService;
 import org.modelmapper.ModelMapper;
