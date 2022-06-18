@@ -22,7 +22,15 @@ public class VaccineServiceImpl extends CRUDImpl<VaccineEntity, Integer> impleme
     }
 
     @Override
-    public VaccineEntity saveTransactional(VaccineEntity vaccine, List<DoseDetailEntity> details) {
+    public VaccineEntity saveTransactional(VaccineEntity vaccine, List<DoseDetailEntity> details) throws Exception {
+        details.forEach(d -> d.setVaccine(vaccine));
+        vaccine.setDoseDetails(details);
+
+        return vaccineRepository.save(vaccine);
+    }
+
+    @Override
+    public VaccineEntity updateTransactional(VaccineEntity vaccine, List<DoseDetailEntity> details) throws Exception {
         details.forEach(d -> d.setVaccine(vaccine));
         vaccine.setDoseDetails(details);
 

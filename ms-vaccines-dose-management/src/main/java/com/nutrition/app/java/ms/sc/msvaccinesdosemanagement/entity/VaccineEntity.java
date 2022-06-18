@@ -1,11 +1,8 @@
 package com.nutrition.app.java.ms.sc.msvaccinesdosemanagement.entity;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 

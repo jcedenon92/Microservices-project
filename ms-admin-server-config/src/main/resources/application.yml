@@ -10,4 +10,4 @@ spring:
     config:
       server:
         native:
-          searchLocations: file:///D:/Galaxy/Proyecto/Nutrition-microservices/ms-admin-server-data
+          searchLocations: file:///D:/Galaxy/Proyecto-Github/Nutrition-app/Microservices-project/ms-admin-server-data

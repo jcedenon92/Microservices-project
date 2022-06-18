@@ -15,8 +15,10 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.nutrition.app.java.ms.sc.msvaccinesdosemanagement.commons.GlobalConstants.*;
+
 @RestController
-@RequestMapping("/vaccines")
+@RequestMapping(API_VACCINE)
 public class VaccineController {
 
     @Autowired
@@ -26,51 +28,94 @@ public class VaccineController {
     @Qualifier("vaccineMapper")
     private ModelMapper mapper;
 
+//    @GetMapping
+//    public ResponseEntity<List<VaccineDTO>> readAll() throws Exception{
+//        List<VaccineDTO> list = vaccineService.getAll().stream()
+//                .map( v -> mapper.map(v, VaccineDTO.class)).collect(Collectors.toList());
+//        return new ResponseEntity<>(list, HttpStatus.OK);
+//    }
+
     @GetMapping
-    public ResponseEntity<List<VaccineDTO>> readAll() throws Exception{
+    public ResponseEntity<Response> readAll() throws Exception{
         List<VaccineDTO> list = vaccineService.getAll().stream()
                 .map( v -> mapper.map(v, VaccineDTO.class)).collect(Collectors.toList());
-        return new ResponseEntity<>(list, HttpStatus.OK);
+        return new ResponseEntity<>(Response
+                                    .builder()
+                                    .message(Message.builder()
+                                                    .code(COD_VACCINE_OBTAINED)
+                                                    .message(MSG_VACCINE_OBTAINED)
+                                                    .build())
+                                    .data(list)
+                                    .build(), HttpStatus.OK);
     }
 
     //GetMapping("/{id}")
     @GetMapping("/{id}")
-    public ResponseEntity<VaccineDTO> getById(@PathVariable("id") Integer id) throws Exception{
+    public ResponseEntity<Response> getById(@PathVariable("id") Integer id) throws Exception{
         VaccineEntity vaccine = vaccineService.getById(id);
         if (vaccine == null){
             throw new ModelNotFoundException("ID NOT FOUND: " + id);
         }
         VaccineDTO dto = mapper.map(vaccine, VaccineDTO.class);
-        return new ResponseEntity<>(dto, HttpStatus.OK);
+        return new ResponseEntity<>(Response
+                                    .builder()
+                                    .message(Message.builder()
+                                            .code(COD_VACCINE_OBTAINED)
+                                            .message(MSG_VACCINE_OBTAINED)
+                                            .build())
+                                    .data(dto)
+                                    .build(), HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<VaccineDTO> create(@Valid @RequestBody VaccineDTO vaccineDTO) throws Exception{
+    public ResponseEntity<Response> create(@Valid @RequestBody VaccineDTO vaccineDTO) throws Exception{
         VaccineEntity v = mapper.map(vaccineDTO, VaccineEntity.class);
         VaccineEntity vac = vaccineService.saveTransactional(v, v.getDoseDetails());
         VaccineDTO dto = mapper.map(vac, VaccineDTO.class);
-        return new ResponseEntity<>(dto, HttpStatus.CREATED);
+        return new ResponseEntity<>(Response
+                                    .builder()
+                                    .message(Message.builder()
+                                            .code(COD_VACCINE_CREATED)
+                                            .message(MSG_VACCINE_CREATED)
+                                            .build())
+                                    .data(dto)
+                                    .build(), HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<VaccineDTO> update(@Valid @RequestBody VaccineDTO vaccineDTO) throws Exception {
+    public ResponseEntity<Response> update(@Valid @RequestBody VaccineDTO vaccineDTO) throws Exception {
         VaccineEntity vac = vaccineService.getById(vaccineDTO.getId());
         if (vac == null) {
             throw new ModelNotFoundException("ID NOT FOUND: " + vaccineDTO.getId());
         }
-        VaccineEntity v = vaccineService.saveTransactional(mapper.map(vaccineDTO, VaccineEntity.class), vac.getDoseDetails());
+        VaccineEntity v = vaccineService.updateTransactional(mapper.map(vaccineDTO, VaccineEntity.class), vac.getDoseDetails());
         VaccineDTO dto = mapper.map(v, VaccineDTO.class);
-        return new ResponseEntity<>(dto, HttpStatus.OK);
+        return new ResponseEntity<>(Response
+                                    .builder()
+                                    .message(Message.builder()
+                                            .code(COD_VACCINE_UPDATED)
+                                            .message(MSG_VACCINE_UPDATED)
+                                            .build())
+                                    .data(dto)
+                                    .build(), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<VaccineDTO> delete(@PathVariable("id") Integer id) throws Exception{
+    public ResponseEntity<Response> delete(@PathVariable("id") Integer id) throws Exception{
         VaccineEntity vac = vaccineService.getById(id);
         if (vac == null) {
             throw new ModelNotFoundException("ID NOT FOUND: " + id);
         }
         vaccineService.delete(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+        VaccineDTO dto = mapper.map(vac, VaccineDTO.class);
+        return new ResponseEntity<>(Response
+                                    .builder()
+                                    .message(Message.builder()
+                                            .code(COD_VACCINE_DELETED)
+                                            .message(MSG_VACCINE_DELETED)
+                                            .build())
+                                    .data(dto)
+                                    .build(), HttpStatus.OK);
     }
 }
 

@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface IVaccineService extends ICRUD<VaccineEntity, Integer> {
 
-    VaccineEntity saveTransactional(VaccineEntity vaccine, List<DoseDetailEntity> details);
+    VaccineEntity saveTransactional(VaccineEntity vaccine, List<DoseDetailEntity> details) throws Exception;
+    VaccineEntity updateTransactional(VaccineEntity vaccine, List<DoseDetailEntity> details) throws Exception;
 
 }
