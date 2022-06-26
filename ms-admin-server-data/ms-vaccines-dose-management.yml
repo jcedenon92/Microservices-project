@@ -2,6 +2,11 @@ server:
   port: 8080
 
 spring:
+  datasource:
+    url: jdbc:postgresql://localhost/ms_service_vaccines
+    username: postgres
+    password: mysql
+    driver-class-name: org.postgresql.Driver
   jpa:
     database: postgresql
     show-sql: true
@@ -10,11 +15,6 @@ spring:
     properties:
       hibernate:
         format_sql: true
-  datasource:
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost/ms_service_vaccines
-    username: postgres
-    password: mysql
 
 # Spring Boot Admin
   boot:
